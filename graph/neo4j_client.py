@@ -1,6 +1,9 @@
 from typing import List, Dict, Any
 from neo4j import GraphDatabase, Driver
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 class Neo4jGraphClient:
     def __init__(self, uri: str, user: str, password: str):
@@ -62,9 +65,10 @@ class Neo4jGraphClient:
 
 if __name__ == "__main__":
     # Connect to local Docker Neo4j instance
-    URI = "bolt://localhost:7687"
-    USER = "neo4j"
-    PASSWORD = "password123"
+    # Fetch securely from environment variables with safe fallbacks
+    URI = os.getenv("NEO4J_URI", "bolt://localhost:7687")
+    USER = os.getenv("NEO4J_USER", "neo4j")
+    PASSWORD = os.getenv("NEO4J_PASSWORD")
 
     client = Neo4jGraphClient(URI, USER, PASSWORD)
 
